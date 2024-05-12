@@ -27,6 +27,8 @@ jobs:
         node-version: '14'
 
 
+    - name: Create "hello-world.txt" file
+      run: echo "Hello, world!" > hello-world.txt
 
     - name: Configure Git
       run: |

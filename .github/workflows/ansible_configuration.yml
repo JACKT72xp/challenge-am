@@ -1,0 +1,41 @@
+name: Run Ansible Playbook
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'infraestructure/configuration/**'
+  workflow_dispatch:
+
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install Ansible
+      run: |
+        python -m pip install --upgrade pip
+        pip install ansible
+
+    - name: Run Ansible Playbook
+      run: ansible-playbook -i hosts.ini setup.yml -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no"' --ask-become-pass
+      env:
+        ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+        ANSIBLE_SUDO_PASS: ${{ secrets.ANSIBLE_SUDO_PASS }}
+
+    - name: Clean up
+      if: always()
+      run: echo "Clean up actions if necessary"

@@ -33,11 +33,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install ansible
 
-    - name: Run Ansible Playbook
+    - name: Run Ansible Playbook (assuming secrets manager is used)
       run: ansible-playbook -i ./infraestructure/configuration/hosts.ini ./infraestructure/configuration/setup.yml -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no"'
       env:
+        pythonLocation: /opt/hostedtoolcache/Python/3.12.3/x64
+        LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.3/x64/lib
         ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
-        ANSIBLE_BECOME_PASS: ${{ secrets.ANSIBLE_SUDO_PASS }}
 
 
     - name: Clean up

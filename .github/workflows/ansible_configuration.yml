@@ -21,6 +21,12 @@ jobs:
     - name: Check out repository code
       uses: actions/checkout@v2
 
+    - name: Configure Git
+      run: |
+        git config --global user.email "jackt72xp@gmail.com"
+        git config --global user.name "Jack Torpoco"
+
+
     - name: Install sshpass
       run: sudo apt-get update && sudo apt-get install -y sshpass
 
@@ -39,6 +45,13 @@ jobs:
       env:
         ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
 
+    - name: Commit files
+      run: |
+        git add .
+        git commit -m "Update configuration files via Ansible"
+
+    - name: Push changes
+      run: git push
 
 
     - name: Clean up

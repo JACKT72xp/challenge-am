@@ -26,34 +26,6 @@ jobs:
       with:
         node-version: '14'
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_version: 1.5.4
-
-    - name: Terraform init
-      run: terraform init -input=false -reconfigure
-      working-directory: infraestruture/provider
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: us-east-1
-
-    - name: Terraform plan
-      run: terraform plan   --var-file=production.tfvars
-      working-directory: infraestruture/provider
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: us-east-1
-
-    - name: Terraform apply
-      run: terraform apply  --var-file=production.tfvars --auto-approve 
-      working-directory: infraestruture/provider
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: us-east-1
 
 
     - name: Commit files
@@ -67,5 +39,49 @@ jobs:
         git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
         git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Bifrost3-0/challenge-am.git
         git push
+
+
+
+    # - name: Setup Terraform
+    #   uses: hashicorp/setup-terraform@v2
+    #   with:
+    #     terraform_version: 1.5.4
+
+    # - name: Terraform init
+    #   run: terraform init -input=false -reconfigure
+    #   working-directory: infraestruture/provider
+    #   env:
+    #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+    #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     AWS_DEFAULT_REGION: us-east-1
+
+    # - name: Terraform plan
+    #   run: terraform plan   --var-file=production.tfvars
+    #   working-directory: infraestruture/provider
+    #   env:
+    #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+    #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     AWS_DEFAULT_REGION: us-east-1
+
+    # - name: Terraform apply
+    #   run: terraform apply  --var-file=production.tfvars --auto-approve 
+    #   working-directory: infraestruture/provider
+    #   env:
+    #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+    #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     AWS_DEFAULT_REGION: us-east-1
+
+
+    # - name: Commit files
+    #   run: |
+    #       git add .
+    #       git commit -m "Update configuration files via Ansible"
+  
+    # - name: Push changes
+    #   run: |
+    #     git config --global user.name 'github-actions[bot]'
+    #     git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+    #     git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Bifrost3-0/challenge-am.git
+    #     git push
   
   

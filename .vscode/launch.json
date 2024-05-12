@@ -4,6 +4,10 @@
             "name": "Setup Velocity",
             "type": "velocity",
             "request": "launch",
+            "velocityId": "vsc-1-hmlGeinXvDQFoWfz",
+            "workload": "deployment/undefined",
+            "arguments": [],
+            "env": [],
             "version": 2
         }
     ]

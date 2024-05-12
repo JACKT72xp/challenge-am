@@ -1,0 +1,12 @@
+version: "1"
+configurations:
+  vsc-1-hmlGeinXvDQFoWfz:
+    name: Setup Velocity
+    debug:
+      path-mappings: []
+      remote-interpreter-path: ""
+    build:
+      dockerfile-path: ""
+      build-context-path: ""
+      executable-path: ""
+      workload-based: false

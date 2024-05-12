@@ -70,3 +70,43 @@
       src: "/home/challenge/{{ inventory_hostname }}_kubeconfig"
       dest: "./../{{ inventory_hostname }}_kubeconfig"
       flat: yes
+
+  - name: Install required package
+    apt:
+      name:
+      - curl
+      - gnupg2
+      state: present
+      update_cache: yes
+
+  - name: Download Istio
+    get_url:
+      url: "https://github.com/istio/istio/releases/download/{{ istio_version }}/istio-{{ istio_version }}-linux-amd64.tar.gz"
+      dest: "/tmp/istio-{{ istio_version }}-linux-amd64.tar.gz"
+    vars:
+      istio_version: "1.11.4"
+
+
+  - name: Extract Istio
+    unarchive:
+      src: "/tmp/istio-{{ istio_version }}-linux-amd64.tar.gz"
+      dest: "/opt"
+      remote_src: yes
+    register: extract
+
+  - name: Set environment variables for Istio
+    lineinfile:
+      path: "/etc/profile"
+      line: "export PATH=$PATH:/opt/istio-{{ istio_version }}/bin"
+      state: present
+    when: extract is changed
+
+  - name: Initialize Istio profile
+    command: "istioctl install --set profile=default -y"
+    environment:
+      PATH: "/opt/istio-{{ istio_version }}/bin:{{ ansible_env.PATH }}"
+
+
+
+
+

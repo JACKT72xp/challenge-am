@@ -43,7 +43,7 @@
   - name: Reboot to ensure group changes are applied
     reboot:
       msg: "Rebooting to ensure group changes are applied properly"
-      reboot_timeout: 300 # 5 minutes  
+      reboot_timeout: 300 # 5 minutes  OK
 
   - name: Wait for MicroK8s to become available
     wait_for:

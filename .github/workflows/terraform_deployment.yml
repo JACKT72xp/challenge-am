@@ -28,7 +28,7 @@ jobs:
 
 
     - name: Create "hello-world.txt" file
-      run: echo "Hello, world!" > hello-world.txt
+      run: echo "Hello, world!2" > hello-world2.txt
 
     - name: Configure Git
       run: |

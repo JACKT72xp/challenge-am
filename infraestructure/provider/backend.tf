@@ -8,12 +8,14 @@ provider "kubernetes" {
   config_path    = "../node2_kubeconfig"
 }
 
+
 provider "helm" {
   alias          = "node1"
   kubernetes {
     config_path    = "../node1_kubeconfig"
   }
 }
+
 
 provider "helm" {
   alias          = "node2"

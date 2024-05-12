@@ -1,6 +1,6 @@
 - name: Configure and Install MicroK8s on Ubuntu Nodes
   hosts: nodes
-  become: yes # Use sudo
+  become: yes # Use sudo ok
   tasks:
   - name: Disable swap
     block:

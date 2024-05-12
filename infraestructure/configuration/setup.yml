@@ -1,0 +1,72 @@
+- name: Configure and Install MicroK8s on Ubuntu Nodes
+  hosts: nodes
+  become: yes # Use sudo
+  tasks:
+  - name: Disable swap
+    block:
+    - name: Turn off all swap devices
+      command: swapoff -a
+      changed_when: false
+
+    - name: Remove swap entries from /etc/fstab
+      lineinfile:
+        path: /etc/fstab
+        regexp: '^\s*([^#]\S+\s+swap\s+\S+\s+\S+)'
+        line: '#\1'
+        backrefs: yes
+
+  - name: Update and upgrade apt packages
+    apt:
+      update_cache: yes
+      upgrade: 'yes'
+
+  - name: Install MicroK8s
+    snap:
+      name: microk8s
+      classic: yes
+      state: present
+
+  - name: Add the user to the MicroK8s group
+    user:
+      name: challenge
+      groups: microk8s
+      append: yes
+
+  - name: Change ownership of .kube directory
+    file:
+      path: "/home/challenge/.kube"
+      state: directory
+      recurse: yes
+      owner: challenge
+      group: challenge
+
+  - name: Reboot to ensure group changes are applied
+    reboot:
+      msg: "Rebooting to ensure group changes are applied properly"
+      reboot_timeout: 300 # 5 minutes timeout for the reboot
+
+  - name: Wait for MicroK8s to become available
+    wait_for:
+      path: "/var/snap/microk8s/current/args/kube-apiserver"
+      state: present
+
+  - name: Enable MicroK8s services with elevated privileges
+    become: yes # Ensures sudo is used for microk8s commands
+    command: microk8s enable dns dashboard storage
+
+  - name: Retrieve MicroK8s kubeconfig
+    become: yes
+    command: microk8s config
+    register: kubeconfig
+
+  - name: Save kubeconfig to specific node file
+    copy:
+      content: "{{ kubeconfig.stdout }}"
+      dest: "/home/challenge/{{ inventory_hostname }}_kubeconfig"
+      mode: '0644'
+
+  - name: Fetch kubeconfig files to local machine
+    fetch:
+      src: "/home/challenge/{{ inventory_hostname }}_kubeconfig"
+      dest: "./../{{ inventory_hostname }}_kubeconfig"
+      flat: yes

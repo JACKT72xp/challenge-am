@@ -28,6 +28,11 @@ jobs:
 
 
 
+    - name: Configure Git
+      run: |
+        git config --global user.email "jackt72xp@gmail.com"
+        git config --global user.name "Jack Torpoco"
+
     - name: Commit files
       run: |
           git add .

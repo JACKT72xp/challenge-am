@@ -34,10 +34,10 @@ jobs:
         pip install ansible
 
     - name: Run Ansible Playbook
-      run: ansible-playbook -i ./infraestructure/configuration/hosts.ini ./infraestructure/configuration/setup.yml -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no"' --ask-become-pass
+      run: ansible-playbook -i ./infraestructure/configuration/hosts.ini ./infraestructure/configuration/setup.yml -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no"'
       env:
         ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
-        ANSIBLE_SUDO_PASS: ${{ secrets.ANSIBLE_SUDO_PASS }}
+        ANSIBLE_BECOME_PASS: ${{ secrets.ANSIBLE_SUDO_PASS }}
 
 
     - name: Clean up

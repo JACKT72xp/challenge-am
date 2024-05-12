@@ -8,7 +8,6 @@ resource "kubernetes_namespace" "devops_node1" {
 
 resource "kubernetes_namespace" "devops_node2" {
   provider = kubernetes.node2
-
   metadata {
     name = "devops"
   }

@@ -1,6 +1,6 @@
 # Setup Guide for MicroK8s, Temporal.io, and Neo4j Deployment
 
-~~ # 	Part 1: Virtual Machines Setup and MicroK8s Installation~~
+# 	~~ Part 1: Virtual Machines Setup and MicroK8s Installation ~~	
 
 ## Objective:
 Create two Linux-based virtual machines and install MicroK8s on both.

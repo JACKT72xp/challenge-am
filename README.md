@@ -1,6 +1,6 @@
 # Setup Guide for MicroK8s, Temporal.io, and Neo4j Deployment
 
-~~ Part 1: Virtual Machines Setup and MicroK8s Installation ~~	
+# Part 1: Virtual Machines Setup and MicroK8s Installation
 
 ## Objective:
 Create two Linux-based virtual machines and install MicroK8s on both.
@@ -31,8 +31,14 @@ Create two Linux-based virtual machines and install MicroK8s on both.
 1. Boot each VM and follow the prompts to install Ubuntu 24.02 ARM.
 2. Select appropriate options such as language, keyboard layout, and disk partitioning.
 3. Complete the installation process and ensure that Ubuntu boots up successfully on both VMs.
+```ansible-playbook -i ./infraestructure/configuration/hosts.ini ./infraestructure/configuration/setup.yml -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no"' -e ansible_become_pass="***"```
 
-### Manual MicroK8s Installation:
+### Dynamic Ubuntu Configuration (Ansible):
+1. Install full dependancy by Ansible
+```ansible-playbook -i ./infraestructure/configuration/hosts.ini ./infraestructure/configuration/setup.yml -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no"' -e ansible_become_pass="***"```
+
+
+### Dynamic MicroK8s Installation (Ansible):
 1. SSH into each VM or access them via the console.
 2. Download the MicroK8s installation script for ARM architecture.
 3. Run the installation script with appropriate permissions to install MicroK8s on each VM.
@@ -56,9 +62,59 @@ Create two Linux-based virtual machines and install MicroK8s on both.
 ### Objective:
 Deploy Temporal.io on the MicroK8s clusters and install Neo4j databases on each machine.
 
-1. Deploy Temporal.io on both MicroK8s clusters.
-2. Install Neo4j on each VM and ensure each instance is accessible from the local network.
-3. Configure Temporal.io to communicate with the local Neo4j instances or VMs.
+1. **Deploy Temporal.io on MicroK8s clusters using Terraform and Ansible:**
+   - Utilize Terraform to automate the deployment of Temporal.io on both MicroK8s clusters.
+   - Ansible playbooks can be used to provision the necessary resources and configurations for Temporal.io deployment.
+   - Ensure that Terraform and Ansible configurations include setup of necessary Kubernetes resources, such as namespaces and services.
+
+2. **Install Neo4j on each VM:**
+   - Use Helm charts to install Neo4j on each VM running MicroK8s.
+   - Helm repositories for Neo4j can be added to ensure availability of the latest versions.
+   - Helm commands should be included in the Ansible playbooks for automated Neo4j installation.
+   
+3. **Configuration for Temporal.io and Neo4j:**
+   - Configure Temporal.io to communicate with the local Neo4j instances or VMs.
+   - Ensure that Temporal.io workers are able to access and interact with Neo4j databases seamlessly.
+   - Verify the connectivity and functionality of Temporal.io and Neo4j integration.
+  
+```Terraform
+terraform init
+terraform plan
+terraform apply --auto-approve
+```
+
+
+### Detailed Steps:
+
+#### Deploying Temporal.io with Terraform and Ansible:
+1. Use Terraform to provision necessary infrastructure resources, such as Kubernetes clusters and nodes.
+2. Configure Terraform to deploy Temporal.io using Helm charts from the specified repositories:
+
+```repository = "https://armory.jfrog.io/artifactory/charts/"```
+3. Use Ansible playbooks to execute Terraform commands and handle post-deployment configurations for Temporal.io.
+4. Ensure that the Terraform scripts leave behind necessary Kubernetes configuration files (`kubeconfig`) for accessing the clusters.
+
+#### Installing Neo4j with Helm:
+1. Add Helm repositories for Neo4j to access the required Helm charts:
+
+```repository = "https://helm.neo4j.com/neo4j"```
+2. Use Helm commands within Ansible playbooks to install Neo4j on each VM running MicroK8s.
+3. Verify the successful installation of Neo4j and ensure that it is accessible from the local network.
+
+#### Configuration for Temporal.io and Neo4j:
+1. Configure Temporal.io to establish connections with the Neo4j databases deployed on each VM.
+2. Ensure that necessary network configurations, such as firewall rules, allow communication between Temporal.io and Neo4j.
+3. Validate the integration by running test workflows that involve interactions with Neo4j databases.
+
+### Considerations:
+- **Automation with Terraform and Ansible:** Utilize automation tools such as Terraform and Ansible to streamline deployment and configuration processes.
+- **Helm Repositories:** Ensure that Helm repositories for Temporal.io and Neo4j are added to access the required Helm charts during deployment.
+- **Configuration Verification:** After deployment, thoroughly verify the configurations to ensure seamless communication between Temporal.io and Neo4j.
+
+
+
+
+
 
 ## Part 3: Connecting Clusters and Deploying a Distributed Workflow
 

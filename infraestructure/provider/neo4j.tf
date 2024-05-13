@@ -70,3 +70,39 @@ resource "helm_release" "temp2_node1" {
 
 
 
+
+
+
+resource "helm_release" "temp2_node2" {
+  provider      = helm.node2
+  name          = "temporalio2"
+  chart         = "temporal"
+  repository    = "https://armory.jfrog.io/artifactory/charts/"
+  namespace     = "devops"
+
+  set {
+    name  = "elasticsearch.enabled"
+    value = "false"  // Example name that conforms to Kubernetes naming conventions
+  }
+
+  set {
+    name  = "grafana.enabled"
+    value = "false"  // Example name that conforms to Kubernetes naming conventions
+  }
+
+  set {
+    name  = "prometheus.enabled"
+    value = "false"  // Example name that conforms to Kubernetes naming conventions
+  }
+
+  set {
+    name  = "server.persistence.enabled"
+    value = "false"  // Example name that conforms to Kubernetes naming conventions
+  }
+
+  set {
+    name  = "cassandra.config.cluster_size"
+    value = "1"  // Example name that conforms to Kubernetes naming conventions
+  }
+  wait = false
+}

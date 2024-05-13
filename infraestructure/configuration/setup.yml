@@ -52,7 +52,7 @@
 
   - name: Enable MicroK8s services with elevated privileges
     become: yes # Ensures sudo is used for microk8s commands
-    command: microk8s enable dns dashboard storage
+    command: microk8s enable dns dashboard storage community
 
   - name: Retrieve MicroK8s kubeconfig
     become: yes

@@ -1,0 +1,31 @@
+- name: Ensure SSH keys are present
+  hosts: all
+  become: yes
+  gather_facts: yes
+  tasks:
+  - name: Ensure .ssh directory exists
+    ansible.builtin.file:
+      path: "{{ ansible_env.HOME }}/.ssh"
+      state: directory
+      mode: '0700'
+      owner: "{{ ansible_user_id }}"
+      group: "{{ ansible_user_id }}"
+
+  - name: Check if SSH key exists
+    ansible.builtin.stat:
+      path: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+    register: ssh_key
+
+  - name: Generate SSH keys
+    ansible.builtin.command:
+      cmd: "ssh-keygen -t rsa -b 2048 -f {{ ansible_env.HOME }}/.ssh/id_rsa -C 'Clave SSH para {{ ansible_hostname }}' -N ''"
+    when: not ssh_key.stat.exists
+    ignore_errors: no
+
+  - name: Set permissions for private key
+    ansible.builtin.file:
+      path: "{{ ansible_env.HOME }}/.ssh/id_rsa"
+      mode: '0600'
+      owner: "{{ ansible_user_id }}"
+      group: "{{ ansible_user_id }}"
+    when: not ssh_key.stat.exists

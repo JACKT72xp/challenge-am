@@ -1,13 +1,55 @@
 # Setup Guide for MicroK8s, Temporal.io, and Neo4j Deployment
 
-## Part 1: Virtual Machines Setup and MicroK8s Installation
+# 	~~Part 1: Virtual Machines Setup and MicroK8s Installation	~~
 
-### Objective:
+## Objective:
 Create two Linux-based virtual machines and install MicroK8s on both.
 
-1. Use a preferred virtualization tool (e.g., VirtualBox, VMware, Multipass) to create two Linux VMs.
-2. Install MicroK8s on each VM following the official documentation.
-3. Validate the MicroK8s installation by deploying a test application.
+1. **Manual Virtual Machine Creation:**
+   - Utilize a preferred virtualization tool such as VMware Fusion or vSphere to manually create two Linux VMs.
+   - Ensure each VM is configured with a minimum of 8GB of RAM and 2 CPUs.
+   - Install Ubuntu 24.02 (ARM version) on each VM.
+
+2. **Manual MicroK8s Installation:**
+   - After VM creation and Ubuntu installation, manually install MicroK8s on each VM.
+   - Due to ARM architecture limitations, manual installation is preferred over package installation.
+   - Follow the official MicroK8s documentation for manual installation steps tailored to ARM architecture.
+
+3. **Validation of MicroK8s Installation:**
+   - Validate the MicroK8s installation by deploying a test application.
+   - Confirm that the test application runs smoothly on both VMs and MicroK8s clusters.
+
+## Detailed Steps:
+
+### Manual VM Creation:
+1. Open VMware Fusion or vSphere and start the process to create a new virtual machine.
+2. Choose Ubuntu 24.02 ARM as the guest operating system.
+3. Allocate at least 8GB of RAM and 2 CPUs to each VM during the configuration process.
+4. Complete the VM creation wizard and ensure that both VMs are successfully created.
+
+### Ubuntu Installation:
+1. Boot each VM and follow the prompts to install Ubuntu 24.02 ARM.
+2. Select appropriate options such as language, keyboard layout, and disk partitioning.
+3. Complete the installation process and ensure that Ubuntu boots up successfully on both VMs.
+
+### Manual MicroK8s Installation:
+1. SSH into each VM or access them via the console.
+2. Download the MicroK8s installation script for ARM architecture.
+3. Run the installation script with appropriate permissions to install MicroK8s on each VM.
+4. Follow any on-screen prompts and post-installation instructions provided by the script.
+5. Verify that MicroK8s is installed correctly by checking the version and status.
+
+### Test Application Deployment:
+1. Choose a simple test application such as "Hello World" or a sample web server.
+2. Create Kubernetes manifests or Helm charts to deploy the test application on both MicroK8s clusters.
+3. Apply the manifests or Helm charts to deploy the test application.
+4. Access the deployed application to ensure it is running as expected on both clusters.
+
+## Considerations:
+- **Hardware Limitations:** Ensure that each VM is allocated sufficient resources (8GB RAM, 2 CPUs) to run MicroK8s smoothly.
+- **ARM Architecture:** Due to ARM architecture limitations, manual installation of MicroK8s is preferred over package installation.
+- **Directory Structure:** All related files and configurations should be organized within the project directory for easy access and management.
+
 
 ## Part 2: Deploying Temporal.io and Neo4j
 

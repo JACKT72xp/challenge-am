@@ -67,7 +67,8 @@ GitHub Actions can be integrated into the workflow to automate deployment pipeli
 For Ansible integration, refer to the `ssh/playbook.yml` file in the infrastructure directory for an example playbook. This playbook can be expanded to include additional tasks for setting up MicroK8s, deploying Temporal.io, and configuring Neo4j.
 
 ## Directory Structure
-´´´
+```
+
 ├── README.md
 ├── code
 │ ├── go.mod
@@ -92,7 +93,7 @@ For Ansible integration, refer to the `ssh/playbook.yml` file in the infrastruct
 │ └── playbook.yml
 └── temporal.io
 └── init_namespaces.sh
-´´´
+```
 
 
 This structure organizes the project into code, infrastructure, and documentation sections for clarity and ease of management.

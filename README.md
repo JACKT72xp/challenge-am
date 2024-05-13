@@ -31,11 +31,15 @@ Create two Linux-based virtual machines and install MicroK8s on both.
 1. Boot each VM and follow the prompts to install Ubuntu 24.02 ARM.
 2. Select appropriate options such as language, keyboard layout, and disk partitioning.
 3. Complete the installation process and ensure that Ubuntu boots up successfully on both VMs.
-```ansible-playbook -i ./infraestructure/configuration/hosts.ini ./infraestructure/configuration/setup.yml -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no"' -e ansible_become_pass="***"```
+```
+ansible-playbook -i ./infraestructure/configuration/hosts.ini ./infraestructure/configuration/setup.yml -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no"' -e ansible_become_pass="***"
+```
 
 ### Dynamic Ubuntu Configuration (Ansible):
 1. Install full dependancy by Ansible
-```ansible-playbook -i ./infraestructure/configuration/hosts.ini ./infraestructure/configuration/setup.yml -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no"' -e ansible_become_pass="***"```
+```
+ansible-playbook -i ./infraestructure/configuration/hosts.ini ./infraestructure/configuration/setup.yml -e 'ansible_ssh_common_args="-o StrictHostKeyChecking=no"' -e ansible_become_pass="***"
+```
 
 
 ### Dynamic MicroK8s Installation (Ansible):
